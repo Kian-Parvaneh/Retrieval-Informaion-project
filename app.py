@@ -15,14 +15,21 @@ path =r"C:/Users/kianp/Desktop/retrieval info project/Docs";
 os.chdir(path);
 
 def read_files(file_path):#read files and add them to array
-   with open(file_path, 'r') as file:
+   with open(file_path, 'r', encoding="utf8") as file:
       Docs.append(file.read());
 
-Docs = [];#an array of stored files
-for file in os.listdir():#locating files to read
-    file_path =f"{path}/{file}";
-    read_files(file_path);
 
+Docs = [];#an array of stored files
+m=1
+for file in os.listdir():#locating files to read
+    file_path =f"{path}/{m}.txt";
+    read_files(file_path);
+    m+=1;
+    if(m>10):
+        break
+for i in Docs:
+    print(i)
+    print('\n\n')
 removeStopwords = [];
 normalized = [];
 for doc in Docs:
@@ -34,10 +41,10 @@ for doc in removeStopwords:
 values = [];
 for doc in normalized :
     values.append(json.loads(pd.value_counts(np.array(doc)).to_json()));
-print(values[0]);
 
-result = {};
+
 while(True):
+    result = {};
     query = singularize(input("Enter word:"));
     i = 1;
     for doc in values:
